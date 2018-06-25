@@ -1,0 +1,19 @@
+{
+  "name": "killbase-app",
+  "version": "1.0.0",
+  "description": "**Killbase** is a service that allows international assassins and their clients to create, book, and execute contracts. You are building a web app for them. It should allow you to:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pantzed/killbase-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pantzed/killbase-app/issues"
+  },
+  "homepage": "https://github.com/pantzed/killbase-app#readme"
+}
