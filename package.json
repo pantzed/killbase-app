@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/pantzed/killbase-app/issues"
   },
-  "homepage": "https://github.com/pantzed/killbase-app#readme"
+  "homepage": "https://github.com/pantzed/killbase-app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "knex": "^0.14.6",
+    "path": "^0.12.7",
+    "pg": "^7.4.3"
+  }
 }
