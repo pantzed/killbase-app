@@ -24,7 +24,6 @@
     return newH;
   }
 
-  //This needs to be refactored to correctly position and format li elements
   function createListElement(appendTo, liElements){
     let newUl = document.createElement('ul');
     let liClient = document.createElement('li');
@@ -74,7 +73,7 @@
     let deleteLink = createLinkElement(colEdit, '/delete.html', extraObj.id);
     let completeLink = createLinkElement(colEdit, '/completed.html', extraObj.id);
     let editBtn = createButtonElement(editLink, 'button', ['btn', 'btn-success'], 'Edit');
-    let deleteBtn = createButtonElement(deleteLink, 'button', ['btn', 'btn-warning'], 'Delete');
+    let deleteBtn = createButtonElement(deleteLink, 'button', ['btn', 'btn-danger'], 'Delete');
     let completeBtn = createButtonElement(completeLink, 'button', ['btn', 'btn-primary'], 'Complete');
   }
 
