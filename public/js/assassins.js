@@ -12,9 +12,14 @@
       let aRating = element.rating;
       let aContact = `assassin@gmail.com`;
       let aImg = `../images/pickle_rick.jpg`;
+      let aId = element.id;
+
+      if (aName === 'NULL') {
+        aName = `Unknown`;
+      }
 
       let assassinOuterRow = document.createElement('div');
-      assassinOuterRow.classList.add('row', 'border-bottom', 'margin-top-50', 'margin-bottom-25');
+      assassinOuterRow.classList.add('row', 'border-bottom', 'margin-top-25', 'padding-bottom-20');
 
       let assassinImgDiv = document.createElement('div');
       assassinImgDiv.classList.add('col-2');
@@ -84,15 +89,26 @@
       let editColumn = document.createElement('div');
       editColumn.classList.add('col-2');
       assassinOuterRow.appendChild(editColumn);
+
+      let editLink = document.createElement('a');
+      editLink.setAttribute('href', '/edit.html');
+      editLink.setAttribute('asn-id', aId);
+      editColumn.appendChild(editLink);
+      
       let editBtn = document.createElement('button');
       editBtn.classList.add('btn', 'btn-success');
-      editBtn.innerHTML = `Edit`;
+      editBtn.textContent = `Edit`;
+      editLink.appendChild(editBtn);
+
+      let deleteLink = document.createElement('a');
+      deleteLink.setAttribute('href', '/edit.html');
+      deleteLink.setAttribute('asn-id', aId);
+      editColumn.appendChild(deleteLink);
 
       let deleteBtn = document.createElement('button');
       deleteBtn.classList.add('btn', 'btn-danger');
-      deleteBtn.innerHTML = `Delete`;
-      editColumn.appendChild(editBtn);
-      editColumn.appendChild(deleteBtn);
+      deleteBtn.textContent = `Delete`;
+      deleteLink.appendChild(deleteBtn);
 
       let assassinCardList = document.getElementById('assassin-card-list');
       assassinCardList.appendChild(assassinOuterRow);
@@ -106,7 +122,6 @@
       .then((data) => data.text())
       .then((text) => {
         assassinsJson = JSON.parse(text);
-        console.log(assassinsJson);
         createNodesForAssassins(assassinsJson);
       })
     }

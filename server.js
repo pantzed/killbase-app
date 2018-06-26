@@ -20,10 +20,21 @@ app.use(bodyParser.json());
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
 app.get('/assassins', (req, res) => {
-  console.log(req);
   knex('assassins').then((x) => {
     res.send(x);
-  });
+  })
+});
+
+app.get('/contracts', (req, res) => {
+  knex
+  .from('contracts')
+  .join('clients', 'contracts.client', '=', 'clients.id')
+  .select('clients.name as client_name', 'contracts.id', 'contracts.target', 'contracts.client', 'contracts.budget', 'contracts.complete', 'contracts.completed_by')
+  .join('targets', 'contracts.target', '=', 'targets.id')
+  .select('targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo')
+  .then((x) => {
+    res.send(x);
+  })
 });
 
 app.use(function(req, res) {
