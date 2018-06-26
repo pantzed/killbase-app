@@ -37,6 +37,24 @@ app.get('/contracts', (req, res) => {
   })
 });
 
+app.get('/contracts/:id', (req, res) => {
+  console.log(req.body.id);
+  knex
+  .from('contracts')
+  .join('clients', 'contracts.client', '=', 'clients.id')
+  .select('clients.name as client_name', 'contracts.id', 'contracts.target', 'contracts.client', 'contracts.budget', 'contracts.complete', 'contracts.completed_by')
+  .join('targets', 'contracts.target', '=', 'targets.id')
+  .select('targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo')
+  .then((x) => {
+    res.send(x);
+  })
+});
+
+app.get('/contracts/:id/edit', (req, res) => {
+  let editContractHTML = path.join(__dirname, 'public', 'contract_edit.html');
+  res.sendFile(editContractHTML);
+});
+
 app.use(function(req, res) {
   res.sendStatus(404);
 });

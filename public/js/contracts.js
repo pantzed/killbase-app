@@ -50,11 +50,13 @@
     return newLinkElement;
   }
 
-  function createButtonElement(appendTo, type, classes, text){
+  function createButtonElement(appendTo, type, classes, text, id){
     let newButtonElement = document.createElement('button');
     newButtonElement.classList.add(...classes);
     newButtonElement.setAttribute('type', type);
+    newButtonElement.setAttribute('contract-id', id);
     newButtonElement.innerHTML = text;
+    newButtonElement.addEventListener('click', callEditPage);
     appendTo.appendChild(newButtonElement);
     return newButtonElement;
   }
@@ -69,16 +71,15 @@
     let targetImg = createImgElement(colImg, ['img-fluid'], extraObj.image, 'contract image');
     let contractHeader = createHeaderElement(colInfo, 'h4', extraObj.target);
     let infoList = createListElement(colInfo, infoObj);
-    let editLink = createLinkElement(colEdit, '/edit.html', extraObj.id);
-    let deleteLink = createLinkElement(colEdit, '/delete.html', extraObj.id);
-    let completeLink = createLinkElement(colEdit, '/completed.html', extraObj.id);
-    let editBtn = createButtonElement(editLink, 'button', ['btn', 'btn-success'], 'Edit');
-    let deleteBtn = createButtonElement(deleteLink, 'button', ['btn', 'btn-danger'], 'Delete');
-    let completeBtn = createButtonElement(completeLink, 'button', ['btn', 'btn-primary'], 'Complete');
+    // let editLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/edit.html`, extraObj.id);
+    // let deleteLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/delete`, extraObj.id);
+    // let completeLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/complete`, extraObj.id);
+    let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id);
+    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete');
+    let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete');
   }
 
   function createNodesForContracts(contractsJson) {
-    console.log('createNodes');
     contractsJson.forEach((e) => {
       let id = e.id
       let targetName = e.target_name;
@@ -90,7 +91,7 @@
       let contractInfoObj = {client: clientName, location: location, budget: budget, security: security};
       let contractExtraObj = {target: targetName, image: targetImage, id: id};
       buildNodes(contractInfoObj, contractExtraObj);
-    })
+    });
   }
 
   function getContracts() {
@@ -105,5 +106,27 @@
     }
 
   getContracts();
+
+  function callEditPage() {
+    event.preventDefault();
+    let contractId = event.target.getAttribute('contract-id');
+    fetch(`http://localhost:8000/contracts/${contractId}/edit`, {
+      method: "GET"
+      })
+      .then((data => data.text()))
+      .then((text) => {
+        console.log(text);
+      })
+      .then(() => {
+        fetch(`http://localhost:8000/contracts/${contractId}`, {
+        method: "GET"
+        })
+        .then((data) => data.text())
+        .then((text) => {
+          contractsJson = JSON.parse(text);
+          console.log(contractsJson);
+        })
+      })
+  }
 
 })();
