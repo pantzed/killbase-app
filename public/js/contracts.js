@@ -55,6 +55,8 @@
     newButtonElement.classList.add(...classes);
     newButtonElement.setAttribute('type', type);
     newButtonElement.setAttribute('contract-id', id);
+    newButtonElement.setAttribute('data-toggle', 'modal');
+    newButtonElement.setAttribute('data-target', '#contracts-modal');
     newButtonElement.innerHTML = text;
     newButtonElement.addEventListener('click', callEditPage);
     appendTo.appendChild(newButtonElement);
@@ -115,7 +117,7 @@
       })
       .then((data => data.text()))
       .then((text) => {
-        console.log(text);
+        document.getElementById('modal-body').innerHTML = text;
       })
       .then(() => {
         fetch(`http://localhost:8000/contracts/${contractId}`, {

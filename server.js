@@ -51,7 +51,7 @@ app.get('/contracts/:id', (req, res) => {
 });
 
 app.get('/contracts/:id/edit', (req, res) => {
-  let editContractHTML = path.join(__dirname, 'public', 'contract_edit.html');
+  let editContractHTML = path.join(__dirname, 'public', '_contract_edit.html');
   res.sendFile(editContractHTML);
 });
 
