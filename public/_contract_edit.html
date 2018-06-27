@@ -7,14 +7,17 @@
         <form id="edit-contract-form" method="post">
           <div class="row">
             <div class="col-sm-12 col-lg-8">
-              <label for="name">Target Name:</label><br>
-              <input type="text" name="name" id="c-name-edit"><br>
+              <label for="target-select">Target Name:</label> <br>
+              <select name="target-select" id="contract-target-select">
+                <option value="none" selected>--Choose a target--</option>
+                <!--Target List-->
+              </select><br>
               <label for="location">Target Location:</label><br>
               <input type="text" name="location" id="c-location-edit"><br>
               <label for="img">Target Image URL:</label><br>
               <input type="url" name="img" id="c-img-edit"><br>
               <label for="contact-select">Client:</label><br>
-              <select id="contract-edit-select">
+              <select name="client-name" id="contract-edit-select">
                 <option value="none" selected>--Choose a client--</option>
                 <!--Clients List-->
               </select>

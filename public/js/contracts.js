@@ -42,13 +42,13 @@
     return newUl;
   }
 
-  function createLinkElement(appendTo, href, contractId){
-    let newLinkElement = document.createElement('a');
-    newLinkElement.setAttribute('href', href);
-    newLinkElement.setAttribute('contract-id', contractId);
-    appendTo.appendChild(newLinkElement);
-    return newLinkElement;
-  }
+  // function createLinkElement(appendTo, href, contractId){
+  //   let newLinkElement = document.createElement('a');
+  //   newLinkElement.setAttribute('href', href);
+  //   newLinkElement.setAttribute('contract-id', contractId);
+  //   appendTo.appendChild(newLinkElement);
+  //   return newLinkElement;
+  // }
 
   function createButtonElement(appendTo, type, classes, text, id){
     let newButtonElement = document.createElement('button');
@@ -97,21 +97,34 @@
   }
 
   function fillEditPageWithData(contractData){
-    console.log(contractData);
     let c = contractData;
     c.forEach((e) => {
-      let nameField = document.getElementById('c-name-edit');
       let locationField = document.getElementById('c-location-edit');
       let imgField = document.getElementById('c-img-edit');
       let securityField = document.getElementById('c-security-edit');
       let priceField = document.getElementById('c-price-edit');
-      nameField.setAttribute('value', e.target_name);
       locationField.setAttribute('value', e.location);
       imgField.setAttribute('value', e.photo);
       securityField.setAttribute('value', e.security);
       priceField.setAttribute('value', e.budget);
     });
+    fetchClients().then((clientNames) => {
+      clientNames.forEach((e) => {
+        let selectOpt = document.createElement('option');
+        selectOpt.setAttribute('value', e.id);
+        selectOpt.innerHTML = e.name;
+        document.getElementById('contract-edit-select').appendChild(selectOpt);
+      });
+    });
 
+    fetchTargets().then((targets) => {
+      targets.forEach((e) => {
+        let selectOpt = document.createElement('option');
+        selectOpt.setAttribute('value', e.id);
+        selectOpt.innerHTML = e.name;
+        document.getElementById('contract-target-select').appendChild(selectOpt);
+      });
+    });
   }
 
   function getContracts() {
@@ -126,16 +139,6 @@
     }
 
   getContracts();
-
-  function reloadContractsList() {
-    fetch(`http://localhost:8000/_contract_edit.html`, {
-    method: "GET"
-    })
-    .then((data => data.text()))
-    .then((text) => {
-    document.innerHTML = text;
-    });
-  }
 
   function callEditPage() {
     event.preventDefault();
@@ -156,9 +159,31 @@
         .then((text) => {
           contractData = JSON.parse(text);
           fillEditPageWithData(contractData);
-          document.getElementById('edit-contract-submit').addEventListener('click', reloadContractsList());
+          // document.getElementById('edit-contract-submit').addEventListener('click', reloadContractsList());
       });
     })
+  }
+
+  function fetchClients() {
+    return fetch(`http://localhost:8000/clients`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        let clientNamesObj = JSON.parse(text);
+        return clientNamesObj;
+      })
+  }
+
+  function fetchTargets() {
+    return fetch(`http://localhost:8000/targets`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        let targetsObj = JSON.parse(text);
+        return targetsObj;
+      })
   }
 
 })();

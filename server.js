@@ -67,8 +67,28 @@ app.get('/_contract_edit.html', (req, res) => {
   res.sendFile(editContractHTML);
 });
 
+app.get('/targets', (req, res) => {
+  knex('targets')
+  .then((things) => {
+    res.send(things);
+  });
+});
+
+app.get('/clients', (req, res) => {
+  knex('clients')
+  .then((things) => {
+    res.send(things);
+  })
+});
+
 app.post('/contracts/:id', (req, res) => {
+  console.log(req.body);
   knex.from('contracts').where('contracts.id', req.params.id)
+  .update({
+    target: req.body['target-select'],
+    client: req.body['client-name'],
+    budget: req.body['price'],
+  })
   .then((x) => {
     res.redirect('/contracts.html');
   });
