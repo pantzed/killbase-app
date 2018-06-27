@@ -96,6 +96,23 @@
     });
   }
 
+  function fillEditPageWithData(contractData){
+    console.log(contractData);
+    let c = contractData;
+    c.forEach((e) => {
+      let nameField = document.getElementById('c-name-edit');
+      let locationField = document.getElementById('c-location-edit');
+      let imgField = document.getElementById('c-img-edit');
+      let securityField = document.getElementById('c-security-edit');
+      let priceField = document.getElementById('c-price-edit');
+      nameField.setAttribute('value', e.target_name);
+      locationField.setAttribute('value', e.location);
+      imgField.setAttribute('value', e.photo);
+      securityField.setAttribute('value', e.security);
+      priceField.setAttribute('value', e.budget);
+    });
+  }
+
   function getContracts() {
     fetch(`http://localhost:8000/contracts`, {
       method: "GET"
@@ -125,8 +142,8 @@
         })
         .then((data) => data.text())
         .then((text) => {
-          contractsJson = JSON.parse(text);
-          console.log(contractsJson);
+          contractData = JSON.parse(text);
+          fillEditPageWithData(contractData);
         })
       })
   }
