@@ -4,26 +4,35 @@
     <h2>Edit Contract</h2>
     <div class="row">
       <div class="col-10">
-        <form method="POST">
+        <form id="edit-contract-form" method="post">
           <div class="row">
             <div class="col-sm-12 col-lg-8">
               <label for="name">Target Name:</label><br>
               <input type="text" name="name" id="c-name-edit"><br>
               <label for="location">Target Location:</label><br>
-              <input type="text" name="code-name" id="c-location-edit"><br>
+              <input type="text" name="location" id="c-location-edit"><br>
               <label for="img">Target Image URL:</label><br>
-              <input type="text" name="img" id="c-img-edit"><br>
+              <input type="url" name="img" id="c-img-edit"><br>
               <label for="contact-select">Client:</label><br>
               <select id="contract-edit-select">
-                <option value="none" selected>--Choose a contact--</option>
-                <option value="Marcellus Wallace">Marcellus Wallace</option>
+                <option value="none" selected>--Choose a client--</option>
+                <!--Clients List-->
               </select>
             </div>
             <div class="col-sm-12 col-lg-4">
               <label for="security">Security Level:</label><br>
-              <input type="text" name="security" id="c-security-edit"><br>
+              <input type="number" name="security" id="c-security-edit"><br>
               <label for="price">Budget:</label><br>
-              <input type="text" name="price" id="c-price-edit"><br>
+              <input type="number" name="price" id="c-price-edit"><br>
+            </div>
+          </div>
+          <div class="row margin-top-25">
+            <div class="col-12">
+              <button type="submit" 
+                      id="edit-contract-submit" 
+                      class="btn btn-primary ml-auto">
+                      Save changes
+              </button>
             </div>
           </div>
         </form>

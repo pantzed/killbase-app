@@ -16,12 +16,20 @@ const app = express();
 
 app.disable('x-powered-by');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
+app.get('/assassins/:id', (req, res) => {
+  knex('assassins').where('id', req.params.id)
+  .then((assassin) => {
+    res.send(assassin);
+  });
+});
+
 app.get('/assassins', (req, res) => {
-  knex('assassins').then((x) => {
-    res.send(x);
+  knex('assassins').then((things) => {
+    res.send(things);
   })
 });
 
@@ -38,9 +46,8 @@ app.get('/contracts', (req, res) => {
 });
 
 app.get('/contracts/:id', (req, res) => {
-  console.log(req.body.id);
   knex
-  .from('contracts')
+  .from('contracts').where('contracts.id', req.params.id)
   .join('clients', 'contracts.client', '=', 'clients.id')
   .select('clients.name as client_name', 'contracts.id', 'contracts.target', 'contracts.client', 'contracts.budget', 'contracts.complete', 'contracts.completed_by')
   .join('targets', 'contracts.target', '=', 'targets.id')
@@ -50,9 +57,21 @@ app.get('/contracts/:id', (req, res) => {
   })
 });
 
-app.get('/contracts/:id/edit', (req, res) => {
+app.get('/contracts.html', (req, res) => {
+  let contracts = path.join(__dirname, 'public', 'contracts.html');
+  res.sendFile(contracts);
+});
+
+app.get('/_contract_edit.html', (req, res) => {
   let editContractHTML = path.join(__dirname, 'public', '_contract_edit.html');
   res.sendFile(editContractHTML);
+});
+
+app.post('/contracts/:id', (req, res) => {
+  knex.from('contracts').where('contracts.id', req.params.id)
+  .then((x) => {
+    res.redirect('/contracts.html');
+  });
 });
 
 app.use(function(req, res) {

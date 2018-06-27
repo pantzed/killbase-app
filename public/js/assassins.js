@@ -91,7 +91,7 @@
       assassinOuterRow.appendChild(editColumn);
 
       let editLink = document.createElement('a');
-      editLink.setAttribute('href', '/edit.html');
+      editLink.setAttribute('href', '/assassins_profile.html');
       editLink.setAttribute('asn-id', aId);
       editColumn.appendChild(editLink);
       

@@ -77,8 +77,8 @@
     // let deleteLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/delete`, extraObj.id);
     // let completeLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/complete`, extraObj.id);
     let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id);
-    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete');
-    let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete');
+    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id) ;
+    let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete', extraObj.id);
   }
 
   function createNodesForContracts(contractsJson) {
@@ -111,6 +111,7 @@
       securityField.setAttribute('value', e.security);
       priceField.setAttribute('value', e.budget);
     });
+
   }
 
   function getContracts() {
@@ -126,15 +127,26 @@
 
   getContracts();
 
+  function reloadContractsList() {
+    fetch(`http://localhost:8000/_contract_edit.html`, {
+    method: "GET"
+    })
+    .then((data => data.text()))
+    .then((text) => {
+    document.innerHTML = text;
+    });
+  }
+
   function callEditPage() {
     event.preventDefault();
     let contractId = event.target.getAttribute('contract-id');
-    fetch(`http://localhost:8000/contracts/${contractId}/edit`, {
+    fetch(`http://localhost:8000/_contract_edit.html`, {
       method: "GET"
       })
       .then((data => data.text()))
       .then((text) => {
         document.getElementById('modal-body').innerHTML = text;
+        document.getElementById('edit-contract-form').setAttribute('action', `contracts/${contractId}`);
       })
       .then(() => {
         fetch(`http://localhost:8000/contracts/${contractId}`, {
@@ -144,8 +156,9 @@
         .then((text) => {
           contractData = JSON.parse(text);
           fillEditPageWithData(contractData);
-        })
-      })
+          document.getElementById('edit-contract-submit').addEventListener('click', reloadContractsList());
+      });
+    })
   }
 
 })();
