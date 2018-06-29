@@ -132,7 +132,7 @@
   }
 
   function getContracts() {
-    fetch(`http://localhost:8000/contracts`, {
+    fetch(`/contracts`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -147,7 +147,7 @@
   function callEditPage() {
     event.preventDefault();
     let contractId = event.target.getAttribute('contract-id');
-    fetch(`http://localhost:8000/_contract_edit.html`, {
+    fetch(`/_contract_edit.html`, {
       method: "GET"
       })
       .then((data => data.text()))
@@ -156,7 +156,7 @@
         document.getElementById('edit-contract-form').setAttribute('action', `assassins/${contractId}`);
       })
       .then(() => {
-        fetch(`http://localhost:8000/contracts/${contractId}`, {
+        fetch(`/contracts/${contractId}`, {
         method: "GET"
         })
         .then((data) => data.text())
@@ -169,7 +169,7 @@
   }
 
   function fetchClients() {
-    return fetch(`http://localhost:8000/clients`, {
+    return fetch(`/clients`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -180,7 +180,7 @@
   }
 
   function fetchTargets() {
-    return fetch(`http://localhost:8000/targets`, {
+    return fetch(`/targets`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -193,7 +193,7 @@
   function deleteContract() {
     event.preventDefault();
     let contractId = event.target.getAttribute('contract-id');
-    fetch(`http://localhost:8000/contracts/${contractId}`, {
+    fetch(`/contracts/${contractId}`, {
       method: "DELETE"
       })
       .then(() => {
