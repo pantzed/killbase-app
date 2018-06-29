@@ -39,15 +39,15 @@
       assassinInfoDiv.classList.add('col-8');
       assassinOuterRow.appendChild(assassinInfoDiv);
 
-      let assassinProfileLink = document.createElement('a');
-      assassinProfileLink.setAttribute('href', '#');
-      assassinProfileLink.setAttribute('asn-id', aId);
-      assassinProfileLink.addEventListener('click', goToProfile);
-      assassinInfoDiv.appendChild(assassinProfileLink);
+      // let assassinProfileLink = document.createElement('a');
+      // assassinProfileLink.setAttribute('href', `assassins/${aId}`);
+      // assassinProfileLink.setAttribute('asn-id', aId);
+      // assassinProfileLink.addEventListener('click', goToProfile);
+      // assassinInfoDiv.appendChild(assassinProfileLink);
 
       let assassinName = document.createElement('h4');
       assassinName.innerHTML = aName;
-      assassinProfileLink.appendChild(assassinName);
+      assassinInfoDiv.appendChild(assassinName);
 
       let codeName = document.createElement('h6');
       codeName.classList.add('font-italic');
@@ -230,8 +230,82 @@
   }
 
   function fillAssassinProfile(obj) {
-    let asnInfo = obj;
-    console.log(asnInfo);
+    let info = obj[0];
+    let outer = document.getElementById('assassin-profile');
+    let infoRow = createDiv(outer, ['row', 'margin-top-50']);
+    let imgCol = createDiv(infoRow, ['col-3']);
+    let infoCol = createDiv(infoRow, ['col-7']);
+    let btnCol = createDiv(infoRow, ['col-2']);
+    let photo = createImgElement(imgCol, ['img-fluid'], info.photo, info.name);
+    let name = createHeaderElement(infoCol, 'h3', info.name);
+    let codeName = createHeaderElement(name, 'h5', `(${info.code_name})`);
+    
+  }
+
+  function createDiv(appendTo, classes) {
+    let newDiv = document.createElement('div');
+    newDiv.classList.add(...classes);
+    appendTo.appendChild(newDiv);
+    return newDiv;
+  }
+
+  function createImgElement(appendTo, classes, src, alt){
+    let newImgElement = document.createElement('img');
+    newImgElement.classList.add(...classes);
+    newImgElement.setAttribute('src', src);
+    newImgElement.setAttribute('alt', alt);
+    appendTo.appendChild(newImgElement);
+    return newImgElement;
+  }
+
+  function createHeaderElement(appendTo, size, text){
+    let newH = document.createElement(size);
+    newH.innerHTML = text;
+    appendTo.appendChild(newH);
+    return newH;
+  }
+
+  function createListElement(appendTo, liElements){
+    let newUl = document.createElement('ul');
+    let liClient = document.createElement('li');
+    liClient.innerHTML = `Client: ${liElements.client}`;
+    newUl.appendChild(liClient);
+    let liLocation = document.createElement('li');
+    liLocation.innerHTML = `Location: ${liElements.location}`;
+    newUl.appendChild(liLocation);
+    let liBudget = document.createElement('li');
+    liBudget.innerHTML = `Budget: ${liElements.budget}`;
+    newUl.appendChild(liBudget);
+    let liSecurity = document.createElement('li');
+    liSecurity.innerHTML = `Security: ${liElements.security}`;
+    newUl.appendChild(liSecurity);
+    appendTo.appendChild(newUl);
+    return newUl;
+  }
+
+  function createLinkElement(appendTo, href, contractId){
+    let newLinkElement = document.createElement('a');
+    newLinkElement.setAttribute('href', href);
+    newLinkElement.setAttribute('contract-id', contractId);
+    appendTo.appendChild(newLinkElement);
+    return newLinkElement;
+  }
+
+  function createButtonElement(appendTo, type, classes, text, id, action){
+    let newButtonElement = document.createElement('button');
+    newButtonElement.classList.add(...classes);
+    newButtonElement.setAttribute('type', type);
+    newButtonElement.setAttribute('contract-id', id);
+    if (text === "Edit"){
+      newButtonElement.setAttribute('data-toggle', 'modal');
+      newButtonElement.setAttribute('data-target', '#contracts-modal');
+    }
+    newButtonElement.innerHTML = text;
+    if (action !== undefined) {
+      newButtonElement.addEventListener('click', action);
+    }
+    appendTo.appendChild(newButtonElement);
+    return newButtonElement;
   }
 
 })();
