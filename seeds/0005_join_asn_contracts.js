@@ -10,7 +10,9 @@ exports.seed = function(knex, Promise) {
         {asn_id: 7, contract_id: 3},
         {asn_id: 9, contract_id: 5},
         {asn_id: 6, contract_id: 4},
-        {asn_id: 3, contract_id: 1}
+        {asn_id: 3, contract_id: 1},
+        {asn_id: 1, contract_id: 2},
+        {asn_id: 1, contract_id: 3},
       ]);
     });
 };

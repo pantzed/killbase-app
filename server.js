@@ -24,7 +24,6 @@ app.get('/assassins/:id', (req, res) => {
   knex('assassins').where('assassins.id', req.params.id)
   .join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((assassin) => {
-    console.log(assassin);
     res.send(assassin);
   });
 });
@@ -36,9 +35,23 @@ app.get('/assassins', (req, res) => {
   })
 });
 
-app.get('/assassin_profile.html', (req, res) => {
+app.get('/assassins/:id/assassin_profile.html', (req, res) => {
   let asnProfile = path.join(__dirname, 'public', 'assassin_profile.html');
   res.sendFile(asnProfile);
+});
+
+app.get('/assassins/:id/contracts', (req, res) => {
+  let id = req.params.id;
+  knex
+  .from('asn_contracts_join').where('asn_contracts_join.asn_id', id)
+  .join('assassins', 'asn_contracts_join.asn_id', '=', 'assassins.id')
+  .join('contracts', 'asn_contracts_join.contract_id', '=', 'contracts.id')
+  .join('clients', 'contracts.client', '=', 'clients.id')
+  .join('targets', 'contracts.target', '=', 'targets.id')
+  .select('clients.name as client_name', 'targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo')
+  .then((contracts) => {
+    res.send(contracts);
+  })
 });
 
 app.get('/contracts', (req, res) => {

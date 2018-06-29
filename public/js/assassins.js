@@ -128,11 +128,29 @@
       let deleteBtn = document.createElement('button');
       deleteBtn.classList.add('btn', 'btn-danger');
       deleteBtn.textContent = `Delete`;
-      deleteLink.appendChild(deleteBtn);
+      editColumn.appendChild(deleteBtn);
+
+      let profileLink = document.createElement('a');
+      profileLink.setAttribute('href', `/assassins/${aId}/assassin_profile.html`);
+      profileLink.setAttribute('asn-id', aId);
+      profileLink.addEventListener('click', storeId);
+      editColumn.appendChild(profileLink);
+
+      let profileBtn = document.createElement('button');
+      profileBtn.classList.add('btn', 'btn-primary');
+      profileBtn.innerHTML = `Profile`;
+      profileLink.appendChild(profileBtn);
 
       let assassinCardList = document.getElementById('assassin-card-list');
       assassinCardList.appendChild(assassinOuterRow);
     });
+  }
+
+  function storeId(){
+    event.preventDefault();
+    let id = event.currentTarget.getAttribute('asn-id');
+    localStorage.setItem('id', id);
+    window.location.href = event.currentTarget.getAttribute('href');
   }
 
   function getAssassins() {
@@ -207,105 +225,124 @@
   }
 
   // Assassin Profile Page Data Fetch and Fill
-  function goToProfile() {
-    let asnId = event.currentTarget.getAttribute('asn-id');
-    console.log(asnId);
-    fetch(`http://localhost:8000/assassin_profile.html`, {
-      method: "GET"
-      })
-      .then((data) => data.text())
-      .then((text) => {
-        document.getElementById('main-content').innerHTML = text;
-      })
-      .then(
-        fetch(`http://localhost:8000/assassins/${asnId}`, {
-        method: "GET"
-        })
-        .then((data) => data.text())
-        .then((text) => {
-          let assassinObj = JSON.parse(text);
-          fillAssassinProfile(assassinObj);
-        })
-      )
-  }
+  // function goToProfile() {
+  //   let asnId = event.target.getAttribute('asn-id');
+  //   let stateObj = { page: "profile" };
+  //   history.pushState(stateObj, "Assassin Profile", `assassins/${asnId}`);
+  //   console.log(asnId);
+  //   fetch(`http://localhost:8000/assassin_profile.html`, {
+  //     method: "GET"
+  //     })
+  //     .then((data) => data.text())
+  //     .then((text) => {
+  //       document.getElementById('main-content').innerHTML = text;
+  //     })
+  //     .then(
+  //       fetch(`http://localhost:8000/assassins/${asnId}`, {
+  //       method: "GET"
+  //       })
+  //       .then((data) => data.text())
+  //       .then((text) => {
+  //         let assassinObj = JSON.parse(text);
+  //         fillAssassinProfile(assassinObj);
+  //       })
+  //       .then(
+  //         fetch(`http://localhost:8000/assassins/${asnId}/contracts`, {
+  //       method: "GET"
+  //       })
+  //       .then((data) => data.text())
+  //       .then((text => {
+  //         let assassinsContracts = JSON.parse(text);
+  //         fillActiveContracts(assassinsContracts);
+  //       }))
+  //       )
+  //     )
+  // }
 
-  function fillAssassinProfile(obj) {
-    let info = obj[0];
-    let outer = document.getElementById('assassin-profile');
-    let infoRow = createDiv(outer, ['row', 'margin-top-50']);
-    let imgCol = createDiv(infoRow, ['col-3']);
-    let infoCol = createDiv(infoRow, ['col-7']);
-    let btnCol = createDiv(infoRow, ['col-2']);
-    let photo = createImgElement(imgCol, ['img-fluid'], info.photo, info.name);
-    let name = createHeaderElement(infoCol, 'h3', info.name);
-    let codeName = createHeaderElement(name, 'h5', `(${info.code_name})`);
-    
-  }
+  // function fillAssassinProfile(obj) {
+  //   let info = obj[0];
+  //   let outer = document.getElementById('assassin-profile');
+  //   let infoRow = createDiv(outer, ['row', 'margin-top-50']);
+  //   let imgCol = createDiv(infoRow, ['col-3']);
+  //   let infoCol = createDiv(infoRow, ['col-7']);
+  //   let btnCol = createDiv(infoRow, ['col-2']);
+  //   let photo = createImgElement(imgCol, ['img-fluid'], info.photo, info.name);
+  //   let name = createHeaderElement(infoCol, 'h3', info.name);
+  //   let codeName = createHeaderElement(name, 'h5', `(${info.code_name})`);
+  //   let topRow = createDiv(infoCol, ['row']);
+  //   let colPR = createDiv(topRow, ['col-6']);
+  //   let ulPR = createListElement(colPR, {Rating: info.rating, Price: info.min_price});
+  //   let colKA= createDiv(topRow, ['col-6']);
+  //   let ulKA = createListElement(colKA, {Kills: info.kills, Age: info.age});
+  //   let bottomRow = createDiv(infoCol, ['row']);
+  //   let colWC = createDiv(bottomRow, ['col-12']);
+  //   let ulWC = createListElement(colWC, {Weapon: info.weapon, Contact: info.contact});
+  //   let editBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-success'], 'Edit', info.id,);
+  //   let deleteBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-danger'], 'Delete', info.id);
+  // }
 
-  function createDiv(appendTo, classes) {
-    let newDiv = document.createElement('div');
-    newDiv.classList.add(...classes);
-    appendTo.appendChild(newDiv);
-    return newDiv;
-  }
+  // function fillActiveContracts(obj){
+  //   let contract = obj;
+  //   console.log(contract);
+  // }
 
-  function createImgElement(appendTo, classes, src, alt){
-    let newImgElement = document.createElement('img');
-    newImgElement.classList.add(...classes);
-    newImgElement.setAttribute('src', src);
-    newImgElement.setAttribute('alt', alt);
-    appendTo.appendChild(newImgElement);
-    return newImgElement;
-  }
+  // function createDiv(appendTo, classes) {
+  //   let newDiv = document.createElement('div');
+  //   newDiv.classList.add(...classes);
+  //   appendTo.appendChild(newDiv);
+  //   return newDiv;
+  // }
 
-  function createHeaderElement(appendTo, size, text){
-    let newH = document.createElement(size);
-    newH.innerHTML = text;
-    appendTo.appendChild(newH);
-    return newH;
-  }
+  // function createImgElement(appendTo, classes, src, alt){
+  //   let newImgElement = document.createElement('img');
+  //   newImgElement.classList.add(...classes);
+  //   newImgElement.setAttribute('src', src);
+  //   newImgElement.setAttribute('alt', alt);
+  //   appendTo.appendChild(newImgElement);
+  //   return newImgElement;
+  // }
 
-  function createListElement(appendTo, liElements){
-    let newUl = document.createElement('ul');
-    let liClient = document.createElement('li');
-    liClient.innerHTML = `Client: ${liElements.client}`;
-    newUl.appendChild(liClient);
-    let liLocation = document.createElement('li');
-    liLocation.innerHTML = `Location: ${liElements.location}`;
-    newUl.appendChild(liLocation);
-    let liBudget = document.createElement('li');
-    liBudget.innerHTML = `Budget: ${liElements.budget}`;
-    newUl.appendChild(liBudget);
-    let liSecurity = document.createElement('li');
-    liSecurity.innerHTML = `Security: ${liElements.security}`;
-    newUl.appendChild(liSecurity);
-    appendTo.appendChild(newUl);
-    return newUl;
-  }
+  // function createHeaderElement(appendTo, size, text){
+  //   let newH = document.createElement(size);
+  //   newH.innerHTML = text;
+  //   appendTo.appendChild(newH);
+  //   return newH;
+  // }
 
-  function createLinkElement(appendTo, href, contractId){
-    let newLinkElement = document.createElement('a');
-    newLinkElement.setAttribute('href', href);
-    newLinkElement.setAttribute('contract-id', contractId);
-    appendTo.appendChild(newLinkElement);
-    return newLinkElement;
-  }
+  // function createListElement(appendTo, liElements){
+  //   let newUl = document.createElement('ul');
+  //   for (let key in liElements) {
+  //     let li = document.createElement('li');
+  //     li.innerHTML = `${key}: ${liElements[key]}`;
+  //     newUl.appendChild(li);
+  //   }
+  //   appendTo.appendChild(newUl);
+  //   return newUl;
+  // }
 
-  function createButtonElement(appendTo, type, classes, text, id, action){
-    let newButtonElement = document.createElement('button');
-    newButtonElement.classList.add(...classes);
-    newButtonElement.setAttribute('type', type);
-    newButtonElement.setAttribute('contract-id', id);
-    if (text === "Edit"){
-      newButtonElement.setAttribute('data-toggle', 'modal');
-      newButtonElement.setAttribute('data-target', '#contracts-modal');
-    }
-    newButtonElement.innerHTML = text;
-    if (action !== undefined) {
-      newButtonElement.addEventListener('click', action);
-    }
-    appendTo.appendChild(newButtonElement);
-    return newButtonElement;
-  }
+  // function createLinkElement(appendTo, href, contractId){
+  //   let newLinkElement = document.createElement('a');
+  //   newLinkElement.setAttribute('href', href);
+  //   newLinkElement.setAttribute('contract-id', contractId);
+  //   appendTo.appendChild(newLinkElement);
+  //   return newLinkElement;
+  // }
+
+  // function createButtonElement(appendTo, type, classes, text, id, action){
+  //   let newButtonElement = document.createElement('button');
+  //   newButtonElement.classList.add(...classes);
+  //   newButtonElement.setAttribute('type', type);
+  //   newButtonElement.setAttribute('contract-id', id);
+  //   if (text === "Edit"){
+  //     newButtonElement.setAttribute('data-toggle', 'modal');
+  //     newButtonElement.setAttribute('data-target', '#contracts-modal');
+  //   }
+  //   newButtonElement.innerHTML = text;
+  //   if (action !== undefined) {
+  //     newButtonElement.addEventListener('click', action);
+  //   }
+  //   appendTo.appendChild(newButtonElement);
+  //   return newButtonElement;
+  // }
 
 })();
