@@ -50,15 +50,19 @@
   //   return newLinkElement;
   // }
 
-  function createButtonElement(appendTo, type, classes, text, id){
+  function createButtonElement(appendTo, type, classes, text, id, action){
     let newButtonElement = document.createElement('button');
     newButtonElement.classList.add(...classes);
     newButtonElement.setAttribute('type', type);
     newButtonElement.setAttribute('contract-id', id);
-    newButtonElement.setAttribute('data-toggle', 'modal');
-    newButtonElement.setAttribute('data-target', '#contracts-modal');
+    if (text === "Edit"){
+      newButtonElement.setAttribute('data-toggle', 'modal');
+      newButtonElement.setAttribute('data-target', '#contracts-modal');
+    }
     newButtonElement.innerHTML = text;
-    newButtonElement.addEventListener('click', callEditPage);
+    if (action !== undefined) {
+      newButtonElement.addEventListener('click', action);
+    }
     appendTo.appendChild(newButtonElement);
     return newButtonElement;
   }
@@ -76,8 +80,8 @@
     // let editLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/edit.html`, extraObj.id);
     // let deleteLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/delete`, extraObj.id);
     // let completeLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/complete`, extraObj.id);
-    let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id);
-    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id) ;
+    let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id, callEditPage);
+    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id, deleteContract);
     let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete', extraObj.id);
   }
 
@@ -149,7 +153,7 @@
       .then((data => data.text()))
       .then((text) => {
         document.getElementById('modal-body').innerHTML = text;
-        document.getElementById('edit-contract-form').setAttribute('action', `contracts/${contractId}`);
+        document.getElementById('edit-contract-form').setAttribute('action', `assassins/${contractId}`);
       })
       .then(() => {
         fetch(`http://localhost:8000/contracts/${contractId}`, {
@@ -183,6 +187,17 @@
       .then((text) => {
         let targetsObj = JSON.parse(text);
         return targetsObj;
+      })
+  }
+
+  function deleteContract() {
+    event.preventDefault();
+    let contractId = event.target.getAttribute('contract-id');
+    fetch(`http://localhost:8000/contracts/${contractId}`, {
+      method: "DELETE"
+      })
+      .then(() => {
+        getContracts()
       })
   }
 

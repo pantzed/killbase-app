@@ -1,0 +1,45 @@
+<!--Extends assassins.html-->
+<div class="row justify-content-center">
+    <div class="col-10">
+      <h2>Assassin Edit</h2>
+      <div class="row">
+        <div class="col-10">
+          <form id="edit-assassin-form" method="post">
+            <div class="row">
+              <div class="col-sm-12 col-lg-8">
+                <label for="assassin-name">Assassin Name:</label><br>
+                <input type="text" name="assassin-name" id="assassin-name">
+                <label for="code-name">Code Name(s) (comma separated):</label><br>
+                <input type="text" name="code-name" id="assassin-code-name"><br>
+                <label for="photo">Profile Image URL:</label><br>
+                <input type="url" name="photo" id="assassin-photo"><br>
+                <label for="weapon">Weapon of Choice:</label><br>
+                <input type="text" name="weapon" id="assassin-weapon"><br>
+                <label for="assassin-contact">Contact Info</label><br>
+                <input type="email" name="assassin-contact" id="assassin-contact">
+              </div>
+              <div class="col-sm-12 col-lg-4">
+                <label for="age">Age:</label><br>
+                <input type="number" name="age" id="assassin-age"><br>
+                <label for="price">Price:</label><br>
+                <input type="number" name="price" id="assassin-price"><br>
+                <label for="rating">Rating:</label><br>
+                <input type="number" name="rating" id="assassin-rating"><br>
+                <label for="kills">Kills:</label><br>
+                <input type="number" name="kills" id="assassin-kills">
+              </div>
+            </div>
+            <div class="row margin-top-25">
+              <div class="col-12">
+                <button type="submit" 
+                        id="edit-contract-submit" 
+                        class="btn btn-primary ml-auto">
+                        Save changes
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -5,17 +5,22 @@
     assassinsJson.forEach((element) => {
       console.log(element);
       let aName = element.name;
+      let aCodeName = element.code_name;
       let aAge = element.age;
       let aWeapon = element.weapon;
       let aPrice = element.min_price;
       let aKills = element.kills;
       let aRating = element.rating;
       let aContact = `assassin@gmail.com`;
-      let aImg = `../images/pickle_rick.jpg`;
+      let aImg = element.photo;
       let aId = element.id;
 
       if (aName === 'NULL') {
         aName = `Unknown`;
+      }
+
+      if (aCodeName === undefined) {
+        aCodeName = 'Unknown';
       }
 
       let assassinOuterRow = document.createElement('div');
@@ -34,9 +39,20 @@
       assassinInfoDiv.classList.add('col-8');
       assassinOuterRow.appendChild(assassinInfoDiv);
 
+      let assassinProfileLink = document.createElement('a');
+      assassinProfileLink.setAttribute('href', '#');
+      assassinProfileLink.setAttribute('asn-id', aId);
+      assassinProfileLink.addEventListener('click', goToProfile);
+      assassinInfoDiv.appendChild(assassinProfileLink);
+
       let assassinName = document.createElement('h4');
       assassinName.innerHTML = aName;
-      assassinInfoDiv.appendChild(assassinName);
+      assassinProfileLink.appendChild(assassinName);
+
+      let codeName = document.createElement('h6');
+      codeName.classList.add('font-italic');
+      codeName.innerHTML = `Code Name: ${aCodeName}`;
+      assassinInfoDiv.appendChild(codeName);
 
       let assassinInfoRowOne = document.createElement('div');
       assassinInfoRowOne.classList.add('row');
@@ -91,13 +107,17 @@
       assassinOuterRow.appendChild(editColumn);
 
       let editLink = document.createElement('a');
-      editLink.setAttribute('href', '/assassins_profile.html');
+      editLink.setAttribute('href', '#');
       editLink.setAttribute('asn-id', aId);
       editColumn.appendChild(editLink);
       
       let editBtn = document.createElement('button');
       editBtn.classList.add('btn', 'btn-success');
+      editBtn.setAttribute('asn-id', aId);
+      editBtn.setAttribute('data-toggle', 'modal');
+      editBtn.setAttribute('data-target', '#contracts-modal');
       editBtn.textContent = `Edit`;
+      editBtn.addEventListener('click', callEditAssassins);
       editLink.appendChild(editBtn);
 
       let deleteLink = document.createElement('a');
@@ -127,5 +147,91 @@
     }
 
   getAssassins();
+
+  function getAssassinInfo() {
+    event.preventDefault();
+    let asnId = event.target.getAttribute('asn-id');
+    fetch(`http://localhost:8000/assassins/${asnId}`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        console.log(true);
+      })
+  }
+
+  function callEditAssassins() {
+    console.log('event triggered')
+    event.preventDefault();
+    let asnId = event.target.getAttribute('asn-id');
+    fetch(`http://localhost:8000/_assassins_edit.html`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        document.getElementById('modal-body').innerHTML = text;
+        document.getElementById('edit-assassin-form').setAttribute('action', `assassins/${asnId}`);
+      })
+      .then(()=> {
+        fetch(`http://localhost:8000/assassins/${asnId}`)
+        .then((data) => data.text())
+        .then((text) => {
+          assassinData = JSON.parse(text);
+          fillAsnEditPage(assassinData);
+        });
+      });
+  }
+
+  function fillAsnEditPage(contractData){
+    let a = assassinData;
+    a.forEach((e) => {
+      let name= document.getElementById('assassin-name');
+      let codeName = document.getElementById('assassin-code-name');
+      let photo = document.getElementById('assassin-photo');
+      let weapon = document.getElementById('assassin-weapon');
+      let contact = document.getElementById('assassin-contact');
+      let age = document.getElementById('assassin-age');
+      let price = document.getElementById('assassin-price');
+      let rating = document.getElementById('assassin-rating');
+      let kills = document.getElementById('assassin-kills');
+      name.setAttribute('value', e.name);
+      codeName.setAttribute('value', e.code_name);
+      photo.setAttribute('value', e.photo);
+      weapon.setAttribute('value', e.weapon);
+      contact.setAttribute('value', e.contact);
+      age.setAttribute('value', e.age);
+      price.setAttribute('value', e.min_price);
+      rating.setAttribute('value', e.rating);
+      kills.setAttribute('value', e.kills);
+    });
+  }
+
+  // Assassin Profile Page Data Fetch and Fill
+  function goToProfile() {
+    let asnId = event.currentTarget.getAttribute('asn-id');
+    console.log(asnId);
+    fetch(`http://localhost:8000/assassin_profile.html`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        document.getElementById('main-content').innerHTML = text;
+      })
+      .then(
+        fetch(`http://localhost:8000/assassins/${asnId}`, {
+        method: "GET"
+        })
+        .then((data) => data.text())
+        .then((text) => {
+          let assassinObj = JSON.parse(text);
+          fillAssassinProfile(assassinObj);
+        })
+      )
+  }
+
+  function fillAssassinProfile(obj) {
+    let asnInfo = obj;
+    console.log(asnInfo);
+  }
 
 })();
