@@ -47,8 +47,33 @@
     let deleteBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-danger'], 'Delete', info.id);
   }
 
-  function fillActiveContracts(obj){
+  function fillActiveContracts(arr){
+    let outer = document.getElementById('assassin-profile');
+    let contractsRow = createDiv(outer, ['row','margin-top-25']);
+    let outerCol = createDiv(contractsRow, ['col-10', 'ml-auto', 'mr-auto']);
+    outerCol.setAttribute('id', 'active-contracts-row');
+    let header = createHeaderElement(outerCol, 'h4', 'Active Contracts');
+    header.classList.add('border-bottom');
+    arr.forEach((contract) => {
+      buildContractDomElements(contract);
+    });
     console.log("Fuck, yeah")
+  }
+
+  function buildContractDomElements(contractObj){
+    let info = contractObj;
+    let infoRow = createDiv(document.getElementById('active-contracts-row'), ['row', 'margin-top-25']);
+    let imgCol = createDiv(infoRow, ['col-2']);
+    let infoCol = createDiv(infoRow, ['col-8']);
+    let btnCol = createDiv(infoRow, ['col-2']);
+    let photo = createImgElement(imgCol, ['img-fluid'], info.photo, info.name);
+    let name = createHeaderElement(infoCol, 'h6', info.target_name);
+    let listRow = createDiv(infoCol, ['row']);
+    let colNL = createDiv(listRow, ['col-6']);
+    let ulNL = createListElement(colNL, {Name: info.target_name, Location: info.location});
+    let colSC = createDiv(listRow, ['col-6']);
+    let ulSC = createListElement(colSC, {Security: info.security, Client: info.client_name});
+    let BtnComplete = createButtonElement(btnCol, 'button', ['btn', 'btn-warning'], 'Complete', info.id);
   }
 
   function createDiv(appendTo, classes) {

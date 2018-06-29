@@ -48,7 +48,7 @@ app.get('/assassins/:id/contracts', (req, res) => {
   .join('contracts', 'asn_contracts_join.contract_id', '=', 'contracts.id')
   .join('clients', 'contracts.client', '=', 'clients.id')
   .join('targets', 'contracts.target', '=', 'targets.id')
-  .select('clients.name as client_name', 'targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo')
+  .select('clients.name as client_name', 'targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo', 'contracts.id')
   .then((contracts) => {
     res.send(contracts);
   })
