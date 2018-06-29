@@ -73,7 +73,8 @@
     let ulNL = createListElement(colNL, {Name: info.target_name, Location: info.location});
     let colSC = createDiv(listRow, ['col-6']);
     let ulSC = createListElement(colSC, {Security: info.security, Client: info.client_name});
-    let BtnComplete = createButtonElement(btnCol, 'button', ['btn', 'btn-warning'], 'Complete', info.id);
+    let btnComplete = createButtonElement(btnCol, 'button', ['btn', 'btn-warning'], 'Complete', info.id);
+    btnComplete.setAttribute('asn-id', localStorage.getItem('id'));
   }
 
   function createDiv(appendTo, classes) {

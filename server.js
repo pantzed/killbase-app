@@ -72,7 +72,7 @@ app.get('/contracts/:id', (req, res) => {
   .join('clients', 'contracts.client', '=', 'clients.id')
   .select('clients.name as client_name', 'contracts.id', 'contracts.target', 'contracts.client', 'contracts.budget', 'contracts.complete', 'contracts.completed_by')
   .join('targets', 'contracts.target', '=', 'targets.id')
-  .select('targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo')
+  .select('targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo', 'assassins.id as assassin_id')
   .then((x) => {
     res.send(x);
   })
