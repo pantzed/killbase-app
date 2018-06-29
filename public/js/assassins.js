@@ -198,7 +198,7 @@
           fillAsnEditPage(assassinData);
         });
       });
-  }
+    }
 
   function fillAsnEditPage(contractData){
     let a = assassinData;

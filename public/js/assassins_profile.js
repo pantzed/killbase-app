@@ -25,6 +25,52 @@
     )
   })();
 
+  function callEditAssassins() {
+    console.log('event triggered')
+    event.preventDefault();
+    let asnId = event.target.getAttribute('asn-id');
+    fetch(`http://localhost:8000/_assassins_edit.html`, {
+      method: "GET"
+      })
+      .then((data) => data.text())
+      .then((text) => {
+        document.getElementById('modal-body').innerHTML = text;
+        document.getElementById('edit-assassin-form').setAttribute('action', `assassins/${asnId}`);
+      })
+      .then(()=> {
+        fetch(`http://localhost:8000/assassins/${asnId}`)
+        .then((data) => data.text())
+        .then((text) => {
+          assassinData = JSON.parse(text);
+          fillAsnEditPage(assassinData);
+        });
+      });
+    }
+
+    function fillAsnEditPage(assassinData){
+      let a = assassinData;
+      a.forEach((e) => {
+        let name= document.getElementById('assassin-name');
+        let codeName = document.getElementById('assassin-code-name');
+        let photo = document.getElementById('assassin-photo');
+        let weapon = document.getElementById('assassin-weapon');
+        let contact = document.getElementById('assassin-contact');
+        let age = document.getElementById('assassin-age');
+        let price = document.getElementById('assassin-price');
+        let rating = document.getElementById('assassin-rating');
+        let kills = document.getElementById('assassin-kills');
+        name.setAttribute('value', e.name);
+        codeName.setAttribute('value', e.code_name);
+        photo.setAttribute('value', e.photo);
+        weapon.setAttribute('value', e.weapon);
+        contact.setAttribute('value', e.contact);
+        age.setAttribute('value', e.age);
+        price.setAttribute('value', e.min_price);
+        rating.setAttribute('value', e.rating);
+        kills.setAttribute('value', e.kills);
+      });
+    }
+
   function fillAssassinProfile(obj) {
     let info = obj[0];
     let outer = document.getElementById('assassin-profile');
@@ -43,7 +89,7 @@
     let bottomRow = createDiv(infoCol, ['row']);
     let colWC = createDiv(bottomRow, ['col-12']);
     let ulWC = createListElement(colWC, {Weapon: info.weapon, Contact: info.contact});
-    let editBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-success'], 'Edit', info.id,);
+    let editBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-success'], 'Edit', info.id, callEditAssassins);
     let deleteBtn = createButtonElement(btnCol, 'button', ['btn', 'btn-danger'], 'Delete', info.id);
   }
 
