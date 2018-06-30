@@ -4,7 +4,7 @@
     let asnId = localStorage.getItem('id');
     // let stateObj = { page: "profile" };
     // history.pushState(stateObj, "Assassin Profile", `assassins/${asnId}/profile`);
-      fetch(`http://localhost:8000/assassins/${asnId}`, {
+      fetch(`/assassins/${asnId}`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -13,7 +13,7 @@
         fillAssassinProfile(assassinObj);
       })
       .then(
-        fetch(`http://localhost:8000/assassins/${asnId}/contracts`, {
+        fetch(`/assassins/${asnId}/contracts`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -29,7 +29,7 @@
     console.log('event triggered')
     event.preventDefault();
     let asnId = event.target.getAttribute('asn-id');
-    fetch(`http://localhost:8000/_assassins_edit.html`, {
+    fetch(`/_assassins_edit.html`, {
       method: "GET"
       })
       .then((data) => data.text())
@@ -38,7 +38,7 @@
         document.getElementById('edit-assassin-form').setAttribute('action', `assassins/${asnId}`);
       })
       .then(()=> {
-        fetch(`http://localhost:8000/assassins/${asnId}`)
+        fetch(`/assassins/${asnId}`)
         .then((data) => data.text())
         .then((text) => {
           assassinData = JSON.parse(text);

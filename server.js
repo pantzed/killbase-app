@@ -21,11 +21,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
 app.get('/assassins', (req, res) => {
-  console.log(req);
-  if (err) {
-    console.log(err);
-    res.sendError(500);
-  }
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((assassins) => {
     console.log(res);
@@ -66,10 +61,6 @@ app.get('/assassins/:id/contracts', (req, res) => {
 });
 
 app.get('/contracts', (req, res) => {
-  if (err) {
-    console.log(err);
-    res.sendError(500);
-  }
   knex
   .from('contracts')
   .join('clients', 'contracts.client', '=', 'clients.id')
