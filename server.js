@@ -28,10 +28,10 @@ app.get('/assassins/:id', (req, res) => {
   });
 });
 
-app.get('/assassins.html', (req, res) => {
-  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
-  res.sendStatic(assassinsPage);
-});
+// app.get('/assassins.html', (req, res) => {
+//   let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
+//   res.sendStatic(assassinsPage);
+// });
 
 app.get('/assassins', (req, res) => {
   console.log(req);
@@ -40,9 +40,9 @@ app.get('/assassins', (req, res) => {
     res.sendError(500);
   }
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
-  .then((things) => {
+  .then((assassins) => {
     console.log(res);
-    res.send(things);
+    res.send(assassins);
   })
 });
 
