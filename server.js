@@ -34,6 +34,10 @@ app.get('/assassins.html', (req, res) => {
 });
 
 app.get('/assassins', (req, res) => {
+  if (err) {
+    console.log(err);
+    res.sendError(503);
+  }
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((things) => {
     console.log(res);
