@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const knexConfigPath = path.join(__dirname, 'knexfile.js');
-const env = 'development';
+const env = 'production';
 const config = require(knexConfigPath)[env];
 const knex = require('knex')(config);
 const express = require('express');
@@ -28,9 +28,15 @@ app.get('/assassins/:id', (req, res) => {
   });
 });
 
+app.get('/assassins.html', (req, res) => {
+  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
+  res.sendStatic(assassinsPage);
+});
+
 app.get('/assassins', (req, res) => {
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((things) => {
+    console.log(res);
     res.send(things);
   })
 });
