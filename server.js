@@ -36,7 +36,7 @@ app.get('/assassins.html', (req, res) => {
 app.get('/assassins', (req, res) => {
   if (err) {
     console.log(err);
-    res.sendError(503);
+    res.sendError(500);
   }
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((things) => {
@@ -65,6 +65,10 @@ app.get('/assassins/:id/contracts', (req, res) => {
 });
 
 app.get('/contracts', (req, res) => {
+  if (err) {
+    console.log(err);
+    res.sendError(500);
+  }
   knex
   .from('contracts')
   .join('clients', 'contracts.client', '=', 'clients.id')
@@ -89,6 +93,10 @@ app.get('/contracts/:id', (req, res) => {
 });
 
 app.get('/contracts.html', (req, res) => {
+  if (err) {
+    console.log(err);
+    res.sendError(500);
+  }
   let contracts = path.join(__dirname, 'public', 'contracts.html');
   res.sendFile(contracts);
 });
