@@ -3,8 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const knexConfigPath = path.join(__dirname, 'knexfile.js');
-const env = 'production';
+const env = 'development';
 const config = require(knexConfigPath)[env];
 const knex = require('knex')(config);
 const express = require('express');
@@ -17,13 +18,13 @@ const app = express();
 app.disable('x-powered-by');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
 app.get('/assassins', (req, res) => {
   knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((assassins) => {
-    console.log(res);
     res.send(assassins);
   })
 });
@@ -57,6 +58,20 @@ app.get('/assassins/:id/contracts', (req, res) => {
   .select('clients.name as client_name', 'targets.name as target_name', 'targets.security', 'targets.location', 'targets.photo', 'contracts.id')
   .then((contracts) => {
     res.send(contracts);
+  })
+});
+
+app.update('assassins/:id/edit', (req, res) => {
+  let id = req.params.id;
+  let post = req.body;
+  let assassinObj = {};
+  if (req.body.name) {
+    assassinObj.name = post.name;
+  }
+  if (req.body.)
+  knex('assassins').where('id', id)
+  .update({
+    name: 
   })
 });
 
