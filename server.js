@@ -20,19 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
-app.get('/assassins/:id', (req, res) => {
-  knex('assassins').where('assassins.id', req.params.id)
-  .join('code_names', 'assassins.id', '=', 'code_names.id')
-  .then((assassin) => {
-    res.send(assassin);
-  });
-});
-
-app.get('/assassins.html', (req, res) => {
-  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
-  res.sendStatic(assassinsPage);
-});
-
 app.get('/assassins', (req, res) => {
   console.log(req);
   if (err) {
@@ -44,6 +31,19 @@ app.get('/assassins', (req, res) => {
     console.log(res);
     res.send(assassins);
   })
+});
+
+app.get('/assassins/:id', (req, res) => {
+  knex('assassins').where('assassins.id', req.params.id)
+  .join('code_names', 'assassins.id', '=', 'code_names.id')
+  .then((assassin) => {
+    res.send(assassin);
+  });
+});
+
+app.get('/assassins.html', (req, res) => {
+  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
+  res.sendStatic(assassinsPage);
 });
 
 app.get('/assassins/:id/assassin_profile.html', (req, res) => {
