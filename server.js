@@ -28,10 +28,10 @@ app.get('/assassins/:id', (req, res) => {
   });
 });
 
-// app.get('/assassins.html', (req, res) => {
-//   let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
-//   res.sendStatic(assassinsPage);
-// });
+app.get('/assassins.html', (req, res) => {
+  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
+  res.sendStatic(assassinsPage);
+});
 
 app.get('/assassins', (req, res) => {
   console.log(req);
