@@ -4,12 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
 const knexConfigPath = path.join(__dirname, 'knexfile.js');
-const env = 'production';
+const env = 'development';
 const config = require(knexConfigPath)[env];
 const knex = require('knex')(config);
 const express = require('express');
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 
 const app = express();
