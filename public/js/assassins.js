@@ -159,6 +159,7 @@
       })
       .then((data) => data.text())
       .then((text) => {
+        console.log(text);
         assassinsJson = JSON.parse(text);
         createNodesForAssassins(assassinsJson);
       })
@@ -166,17 +167,17 @@
 
   getAssassins();
 
-  function getAssassinInfo() {
-    event.preventDefault();
-    let asnId = event.target.getAttribute('asn-id');
-    fetch(`/assassins/${asnId}`, {
-      method: "GET"
-      })
-      .then((data) => data.text())
-      .then((text) => {
-        console.log(true);
-      })
-  }
+  // function getAssassinInfo() {
+  //   event.preventDefault();
+  //   let asnId = event.target.getAttribute('asn-id');
+  //   fetch(`/assassins/${asnId}`, {
+  //     method: "GET"
+  //     })
+  //     .then((data) => data.text())
+  //     .then((text) => {
+  //       console.log(true);
+  //     })
+  // }
 
   function callEditAssassins() {
     console.log('event triggered')
