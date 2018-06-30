@@ -34,6 +34,7 @@ app.get('/assassins.html', (req, res) => {
 });
 
 app.get('/assassins', (req, res) => {
+  console.log(req);
   if (err) {
     console.log(err);
     res.sendError(500);
