@@ -4,9 +4,10 @@
       <h2>Assassin Edit</h2>
       <div class="row">
         <div class="col-10">
-          <form id="edit-assassin-form" method="post">
+          <form id="edit-assassin-form" method="POST">
             <div class="row">
               <div class="col-sm-12 col-lg-8">
+                <input type="hidden" name="_method" value="PUT">
                 <label for="name">Assassin Name:</label><br>
                 <input type="text" name="name" id="assassin-name">
                 <label for="code">Code Name(s) (comma separated):</label><br>
@@ -16,7 +17,7 @@
                 <label for="weapon">Weapon of Choice:</label><br>
                 <input type="text" name="weapon" id="assassin-weapon"><br>
                 <label for="contact">Contact Info</label><br>
-                <input type="email" name="ontact" id="assassin-contact">
+                <input type="email" name="contact" id="assassin-contact">
               </div>
               <div class="col-sm-12 col-lg-4">
                 <label for="age">Age:</label><br>

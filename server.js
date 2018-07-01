@@ -18,7 +18,15 @@ const app = express();
 app.disable('x-powered-by');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
 
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
@@ -61,18 +69,16 @@ app.get('/assassins/:id/contracts', (req, res) => {
   })
 });
 
-app.update('assassins/:id/edit', (req, res) => {
+app.put('/assassins/:id/edit', (req, res) => {
+  console.log(req);
   let id = req.params.id;
-  let post = req.body;
-  let assassinObj = {};
-  if (req.body.name) {
-    assassinObj.name = post.name;
-  }
-  if (req.body.)
   knex('assassins').where('id', id)
   .update({
-    name: 
+    name: req.body.name
   })
+  .then(() => {
+    res.redirect('/assassins.html');
+  });
 });
 
 app.get('/contracts', (req, res) => {
@@ -101,7 +107,6 @@ app.get('/contracts/:id', (req, res) => {
 
 app.get('/contracts.html', (req, res) => {
   if (err) {
-    console.log(err);
     res.sendError(500);
   }
   let contracts = path.join(__dirname, 'public', 'contracts.html');
@@ -145,10 +150,8 @@ app.post('/contracts/:id', (req, res) => {
 });
 
 app.delete('/contracts/:id', (req, res) => {
-  console.log('deleting...');
   knex.from('contracts').where('contracts.id', req.params.id).del()
   .then(() => {
-    console.log('Deleted!')
     res.redirect(303, 'contracts.html');
   });
 });

@@ -183,7 +183,7 @@
       .then((data) => data.text())
       .then((text) => {
         document.getElementById('modal-body').innerHTML = text;
-        document.getElementById('edit-assassin-form').setAttribute('action', `assassins/${asnId}/edit?_method="PUT"`);
+        document.getElementById('edit-assassin-form').setAttribute('action', `assassins/${asnId}/edit`);
         document.getElementById('edit-assassin-form').setAttribute('method', `POST`);
       })
       .then(()=> {
