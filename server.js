@@ -70,11 +70,29 @@ app.get('/assassins/:id/contracts', (req, res) => {
 });
 
 app.put('/assassins/:id/edit', (req, res) => {
-  console.log(req);
   let id = req.params.id;
+  let updates = {};
+  let codeName = {};
+
+  for (let key in req.body) {
+    if (req.body[key] !== undefined || req.body[key] !== null) {
+      console.log(key, typeof(key))
+      if (key === 'code_name') {
+        codeName.code_name = req.body[key];
+        console.log(codeName);
+      }
+      else {
+        updates[key] = req.body[key];
+      }
+    }
+  }
+
   knex('assassins').where('id', id)
-  .update({
-    name: req.body.name
+  .update(updates)
+  .then(() => {
+   return knex('code_names').where('id', id)
+    .update(codeName)
+    
   })
   .then(() => {
     res.redirect('/assassins.html');
