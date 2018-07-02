@@ -5,7 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const knexConfigPath = path.join(__dirname, 'knexfile.js');
-const env = 'development';
+const env = 'production';
 const config = require(knexConfigPath)[env];
 const knex = require('knex')(config);
 const express = require('express');
@@ -92,7 +92,6 @@ app.put('/assassins/:id/edit', (req, res) => {
   .then(() => {
    return knex('code_names').where('id', id)
     .update(codeName)
-    
   })
   .then(() => {
     res.redirect('/assassins.html');
