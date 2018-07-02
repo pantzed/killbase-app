@@ -1,6 +1,6 @@
 (function() {
   let assassinsJson;
-  
+
   function createNodesForAssassins(assassinsJson) {
     assassinsJson.forEach((element) => {
       let aName = element.name;
@@ -21,10 +21,6 @@
       if (aCodeName === undefined) {
         aCodeName = 'Unknown';
       }
-
-      let exists = document.querySelectorAll(`a[asn-id=${aId}]`);
-
-      console.log(exists);
 
       let assassinOuterRow = document.createElement('div');
       assassinOuterRow.classList.add('row', 'border-bottom', 'margin-top-25', 'padding-bottom-20');
