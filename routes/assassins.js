@@ -15,7 +15,6 @@ router.get('/assassins', (req, res) => {
   knex('assassins')
   .join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((assassins) => {
-    console.log(assassins);
     res.send(assassins);
   })
 });
@@ -23,18 +22,19 @@ router.get('/assassins', (req, res) => {
 router.get('/assassins/:id', (req, res) => {
   knex('assassins').where('assassins.id', req.params.id)
   .join('code_names', 'assassins.id', '=', 'code_names.id')
+  // .orderBy('assassins.name', 'desc')
   .then((assassin) => {
     res.send(assassin);
   });
 });
 
 router.get('/assassins.html', (req, res) => {
-  let assassinsPage = path.join(__dirnamr, 'public', 'assassins.html')
+  let assassinsPage = path.join(__dirname, '..', 'public', 'assassins.html')
   res.sendStatic(assassinsPage);
 });
 
 router.get('/assassins/:id/assassin_profile.html', (req, res) => {
-  let asnProfile = path.join(__dirname, 'public', 'assassin_profile.html');
+  let asnProfile = path.join(__dirname, '..', 'public', 'assassin_profile.html');
   res.sendFile(asnProfile);
 });
 
@@ -59,10 +59,8 @@ router.put('/assassins/:id/edit', (req, res) => {
 
   for (let key in req.body) {
     if (req.body[key] !== undefined || req.body[key] !== null) {
-      console.log(key, typeof(key))
       if (key === 'code_name') {
         codeName.code_name = req.body[key];
-        console.log(codeName);
       }
       else {
         updates[key] = req.body[key];
@@ -79,10 +77,11 @@ router.put('/assassins/:id/edit', (req, res) => {
   .then(() => {
     res.redirect('/assassins.html');
   });
+
 });
 
 router.get('/assassins_edit.html', (req, res) => {
-  let editAssassinHTML = path.join(__dirname, 'public', '_assassins_edit.html');
+  let editAssassinHTML = path.join(__dirname, '..', 'public', '_assassins_edit.html');
   res.sendFile(editAssassinHTML);
 })
 
