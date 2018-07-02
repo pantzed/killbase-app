@@ -5,7 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const knexConfigPath = path.join(__dirname, 'knexfile.js');
-const env = 'production';
+const env = process.env.NODE_ENV || 'development';
 const config = require(knexConfigPath)[env];
 const knex = require('knex')(config);
 const express = require('express');
@@ -31,8 +31,10 @@ app.use(methodOverride(function (req, res) {
 app.use(express.static('public')); //Sets static file directory for use with "localhost:8000 in browser"
 
 app.get('/assassins', (req, res) => {
-  knex('assassins').join('code_names', 'assassins.id', '=', 'code_names.id')
+  knex('assassins')
+  .join('code_names', 'assassins.id', '=', 'code_names.id')
   .then((assassins) => {
+    console.log(assassins);
     res.send(assassins);
   })
 });

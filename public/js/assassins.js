@@ -1,9 +1,8 @@
 (function() {
   let assassinsJson;
-
+  
   function createNodesForAssassins(assassinsJson) {
     assassinsJson.forEach((element) => {
-      console.log(element);
       let aName = element.name;
       let aCodeName = element.code_name;
       let aAge = element.age;
@@ -22,6 +21,10 @@
       if (aCodeName === undefined) {
         aCodeName = 'Unknown';
       }
+
+      let exists = document.querySelectorAll(`a[asn-id=${aId}]`);
+
+      console.log(exists);
 
       let assassinOuterRow = document.createElement('div');
       assassinOuterRow.classList.add('row', 'border-bottom', 'margin-top-25', 'padding-bottom-20');
@@ -153,7 +156,6 @@
       })
       .then((data) => data.text())
       .then((text) => {
-        console.log(text);
         assassinsJson = JSON.parse(text);
         createNodesForAssassins(assassinsJson);
       })
@@ -169,12 +171,10 @@
       })
       .then((data) => data.text())
       .then((text) => {
-        console.log(true);
       })
   }
 
   function callEditAssassins() {
-    console.log('event triggered')
     event.preventDefault();
     let asnId = event.target.getAttribute('asn-id');
     fetch(`/_assassins_edit.html`, {
