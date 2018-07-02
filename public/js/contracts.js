@@ -42,14 +42,6 @@
     return newUl;
   }
 
-  // function createLinkElement(appendTo, href, contractId){
-  //   let newLinkElement = document.createElement('a');
-  //   newLinkElement.setAttribute('href', href);
-  //   newLinkElement.setAttribute('contract-id', contractId);
-  //   appendTo.appendChild(newLinkElement);
-  //   return newLinkElement;
-  // }
-
   function createButtonElement(appendTo, type, classes, text, id, action){
     let newButtonElement = document.createElement('button');
     newButtonElement.classList.add(...classes);
@@ -77,9 +69,6 @@
     let targetImg = createImgElement(colImg, ['img-fluid'], extraObj.image, 'contract image');
     let contractHeader = createHeaderElement(colInfo, 'h4', extraObj.target);
     let infoList = createListElement(colInfo, infoObj);
-    // let editLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/edit.html`, extraObj.id);
-    // let deleteLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/delete`, extraObj.id);
-    // let completeLink = createLinkElement(colEdit, `/contracts/${extraObj.id}/complete`, extraObj.id);
     let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id, callEditPage);
     let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id, deleteContract);
     let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete', extraObj.id);
@@ -163,7 +152,6 @@
         .then((text) => {
           contractData = JSON.parse(text);
           fillEditPageWithData(contractData);
-          // document.getElementById('edit-contract-submit').addEventListener('click', reloadContractsList());
       });
     })
   }

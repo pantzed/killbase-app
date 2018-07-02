@@ -19,7 +19,7 @@
       }
 
       if (aCodeName === undefined) {
-        aCodeName = 'Unknown';
+        aCodeName = `Unknown`;
       }
 
       let assassinOuterRow = document.createElement('div');
@@ -159,16 +159,16 @@
 
   getAssassins();
 
-  function getAssassinInfo() {
-    event.preventDefault();
-    let asnId = event.target.getAttribute('asn-id');
-    fetch(`/assassins/${asnId}`, {
-      method: "GET"
-      })
-      .then((data) => data.text())
-      .then((text) => {
-      })
-  }
+  // function getAssassinInfo() {
+  //   event.preventDefault();
+  //   let asnId = event.target.getAttribute('asn-id');
+  //   fetch(`/assassins/${asnId}`, {
+  //     method: "GET"
+  //     })
+  //     .then((data) => data.text())
+  //     .then((text) => {
+  //     })
+  // }
 
   function callEditAssassins() {
     event.preventDefault();
