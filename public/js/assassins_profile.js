@@ -169,7 +169,11 @@
     let newButtonElement = document.createElement('button');
     newButtonElement.classList.add(...classes);
     newButtonElement.setAttribute('type', type);
-    newButtonElement.setAttribute('contract-id', id);
+    newButtonElement.setAttribute('asn-id', id);
+    if (text === "Complete") {
+      newButtonElement.setAttribute('contract-id', id);
+    }
+  
     if (text === "Edit"){
       newButtonElement.setAttribute('data-toggle', 'modal');
       newButtonElement.setAttribute('data-target', '#contracts-modal');

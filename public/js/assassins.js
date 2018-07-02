@@ -192,7 +192,7 @@
       });
     }
 
-  function fillAsnEditPage(contractData){
+  function fillAsnEditPage(assassinData){
     let a = assassinData;
     a.forEach((e) => {
       let name= document.getElementById('assassin-name');
