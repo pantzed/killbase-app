@@ -59,21 +59,6 @@
     return newButtonElement;
   }
 
-  function buildNodes(infoObj, extraObj) {
-    let outerRow = document.createElement('div');
-    outerRow.classList.add('row', 'margin-top-50');
-    document.getElementById('contracts-card-list').appendChild(outerRow);
-    let colImg = createDiv(outerRow, ['col-2']);
-    let colInfo = createDiv(outerRow, ['col-7']);
-    let colEdit = createDiv(outerRow, ['col-3']);
-    let targetImg = createImgElement(colImg, ['img-fluid'], extraObj.image, 'contract image');
-    let contractHeader = createHeaderElement(colInfo, 'h4', extraObj.target);
-    let infoList = createListElement(colInfo, infoObj);
-    let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id, callEditPage);
-    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id, deleteContract);
-    let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete', extraObj.id);
-  }
-
   function createNodesForContracts(contractsJson) {
     contractsJson.forEach((e) => {
       let id = e.id
@@ -87,6 +72,21 @@
       let contractExtraObj = {target: targetName, image: targetImage, id: id};
       buildNodes(contractInfoObj, contractExtraObj);
     });
+  }
+
+  function buildNodes(infoObj, extraObj) {
+    let outerRow = document.createElement('div');
+    outerRow.classList.add('row', 'margin-top-50');
+    document.getElementById('contracts-card-list').appendChild(outerRow);
+    let colImg = createDiv(outerRow, ['col-2']);
+    let colInfo = createDiv(outerRow, ['col-7']);
+    let colEdit = createDiv(outerRow, ['col-3']);
+    let targetImg = createImgElement(colImg, ['img-fluid'], extraObj.image, 'contract image');
+    let contractHeader = createHeaderElement(colInfo, 'h4', extraObj.target);
+    let infoList = createListElement(colInfo, infoObj);
+    let editBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-success'], 'Edit', extraObj.id, callEditPage);
+    let deleteBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-danger'], 'Delete', extraObj.id, deleteContract);
+    let completeBtn = createButtonElement(colEdit, 'button', ['btn', 'btn-primary'], 'Complete', extraObj.id);
   }
 
   function fillEditPageWithData(contractData){
